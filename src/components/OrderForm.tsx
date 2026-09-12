@@ -280,21 +280,23 @@ export const OrderForm: React.FC<OrderFormProps> = ({ selectedVariant, onSelectV
 
         {/* Main Grid: Form Left, Order Summary Right */}
         {submitStatus !== 'success' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
             
             {/* Left 7 Columns: Delivery Address Form */}
-            <div className="lg:col-span-7 bg-slate-50/70 p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs">
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1 flex items-center gap-2">
-                <Package className="w-5 h-5 text-slate-700" />
-                1. Delivery & Contact Details
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-500 mb-6">
-                All fields marked with an asterisk (<span className="text-rose-500 font-bold">*</span>) are required.
-              </p>
+            <div className="lg:col-span-7 bg-slate-50/70 p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between h-full">
+              <div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1 flex items-center gap-2">
+                  <Package className="w-5 h-5 text-slate-700" />
+                  1. Delivery & Contact Details
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 mb-6">
+                  All fields marked with an asterisk (<span className="text-rose-500 font-bold">*</span>) are required.
+                </p>
+              </div>
 
-              <form onSubmit={handleSubmit} noValidate className="space-y-4 sm:space-y-5">
-                
-                {/* Full Name */}
+              <form onSubmit={handleSubmit} noValidate className="space-y-4 sm:space-y-5 flex-1 flex flex-col justify-between">
+                <div className="space-y-4 sm:space-y-5">
+                  {/* Full Name */}
                 <div>
                   <label htmlFor="input-customer_name" className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
                     Full Name <span className="text-rose-500">*</span>
@@ -483,39 +485,55 @@ export const OrderForm: React.FC<OrderFormProps> = ({ selectedVariant, onSelectV
                   />
                 </div>
 
-                {/* Mobile Order Submit Button (Also placed inside right column on desktop) */}
-                <div className="pt-4 lg:hidden">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    id="submit-order-mobile-btn"
-                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white text-base font-semibold shadow-md transition-all cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Confirming Cash-on-Delivery Order...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Confirm Order • Pay {CURRENCY_SYMBOL}{totalPayable.toFixed(2)} on Delivery</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
+                </div>
+
+                {/* Left Card Bottom Trust Reassurance */}
+                <div className="pt-4 border-t border-slate-200/80 mt-auto">
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>Encrypted & secure — strictly used for courier delivery</span>
+                    </div>
+                    <span className="hidden sm:inline-block text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                      100% COD
+                    </span>
+                  </div>
+
+                  {/* Mobile Order Submit Button (Also placed inside right column on desktop) */}
+                  <div className="pt-4 lg:hidden">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      id="submit-order-mobile-btn"
+                      className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white text-base font-semibold shadow-md transition-all cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <span>Confirming Cash-on-Delivery Order...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Confirm Order • Pay {CURRENCY_SYMBOL}{totalPayable.toFixed(2)} on Delivery</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
               </form>
             </div>
 
             {/* Right 5 Columns: Order Summary & Variant Selection */}
-            <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 h-full">
               
-              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-md">
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <ShoppingBag className="w-5 h-5 text-slate-700" />
-                  2. Order Summary
-                </h3>
+              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-md h-full flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <ShoppingBag className="w-5 h-5 text-slate-700" />
+                    2. Order Summary
+                  </h3>
 
                 {/* Product Mini Row */}
                 <div className="flex gap-4 items-center pb-5 border-b border-slate-100">
@@ -630,41 +648,46 @@ export const OrderForm: React.FC<OrderFormProps> = ({ selectedVariant, onSelectV
                   </div>
                 </div>
 
-                {/* Desktop Submit Button */}
-                <div className="mt-6 hidden lg:block">
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={isSubmitting}
-                    id="submit-order-desktop-btn"
-                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white text-base font-semibold shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Sending Order...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Confirm COD Order ({CURRENCY_SYMBOL}{totalPayable.toFixed(2)})</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
                 </div>
 
-              </div>
+                {/* Bottom Actions & Guarantees within the summary card */}
+                <div className="mt-6 space-y-3.5">
+                  {/* Desktop Submit Button */}
+                  <div className="hidden lg:block">
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      disabled={isSubmitting}
+                      id="submit-order-desktop-btn"
+                      className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white text-base font-semibold shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <span>Sending Order...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Confirm COD Order ({CURRENCY_SYMBOL}{totalPayable.toFixed(2)})</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  </div>
 
-              {/* Guarantees Box */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-2">
-                <div className="flex items-center gap-2 font-medium text-slate-900">
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span>30-Day Inspection & Satisfaction Guarantee</span>
+                  {/* Guarantees Box */}
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-2">
+                    <div className="flex items-center gap-2 font-medium text-slate-900">
+                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>30-Day Inspection & Satisfaction Guarantee</span>
+                    </div>
+                    <div className="flex items-center gap-2 font-medium text-slate-900">
+                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>Direct Customer Support for Any Inquiries</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 font-medium text-slate-900">
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span>Direct Customer Support for Any Inquiries</span>
-                </div>
+
               </div>
 
             </div>
